@@ -44,6 +44,43 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("post-tags").innerHTML = `タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}`;
         document.getElementById("post-detail").classList.add('active');
     }
+    function filterPosts() {
+    const searchText = searchInput.value.toLowerCase();
+    const selectedCategory = categoryFilter.value;
+    const selectedTag = tagFilter.value;
+    const selectedSort = sortSelect.value;
+
+    let filteredPosts = posts;
+
+    // 検索文字列でフィルタリング
+    if (searchText) {
+        filteredPosts = filteredPosts.filter(post => 
+            post.title.toLowerCase().includes(searchText) ||
+            post.subtitle.toLowerCase().includes(searchText)
+        );
+    }
+
+    // カテゴリでフィルタリング
+    if (selectedCategory && selectedCategory !== 'all') {
+        filteredPosts = filteredPosts.filter(post => post.category === selectedCategory);
+    }
+
+    // タグでフィルタリング
+    if (selectedTag && selectedTag !== 'all') {
+        filteredPosts = filteredPosts.filter(post => post.tags.includes(selectedTag));
+    }
+
+    // 並び替え
+    if (selectedSort === 'date-asc') {
+        filteredPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (selectedSort === 'date-desc') {
+        filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    // フィルタリング結果をレンダリング
+    renderPosts(filteredPosts);
+}
+
 
     function showTabFromHash() {
         const hash = window.location.hash;
