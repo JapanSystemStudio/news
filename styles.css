@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #4CAF50;
+    padding: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header nav ul li a:hover {
+    background-color: #45a049;
+    color: #fff;
+}
+
+header nav ul li a:active {
+    background-color: #3e8e41;
+    color: #fff;
+}
+
+header nav ul li a.active-tab {
+    background-color: #333;
+    color: #fff;
+}
+
+#content {
+    width: 90%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#post-list {
+    display: flex;
+    flex-direction: column;
+}
+
+#post-list .post-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    overflow: hidden;
+}
+
+#post-list .post-item:hover {
+    background-color: #e0e0e0;
+}
+
+#post-list .post-item h3 {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+#post-list .post-item p {
+    margin: 0;
+    color: #666;
+}
+
+#post-detail {
+    padding: 20px;
+}
+
+#post-detail h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+#post-detail h3 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#post-detail p {
+    margin: 5px 0;
+    color: #666;
+}
+
+#back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#back-button:hover {
+    background-color: #45a049;
+}
+/* 既存のスタイルはそのままにして、以下を追加 */
+
+#search-input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#search-input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+/* 既存のスタイルに加えて、以下を追加 */
+
+#search-input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#search-input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+#category-filter, #sort-select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#post-list .post-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    overflow: hidden;
+}
+
+.highlight {
+    background-color: yellow;
+}
+/* 他のスタイル */
+
+.tag {
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    padding: 2px 5px;
+    margin: 0 5px;
+    font-size: 0.9em;
+    display: inline-block;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+/* モバイル対応 */
+@media (max-width: 600px) {
+    #content {
+        width: 100%;
+        padding: 10px;
+    }
+
+    header nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    header nav ul li a {
+        padding: 5px;
+    }
+}
+#tag-filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+}
