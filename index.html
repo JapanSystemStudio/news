@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Dゲーム制作</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+</head>
+<body>
+    <header>
+        <h1>3Dゲーム制作</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#profile">プロフィール</a></li>
+                <li><a href="#notifications">通知</a></li>
+                <li><a href="#settings">設定</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="content">
+        <div id="home" class="tab-content">
+            <h2>ホーム</h2>
+            <input type="text" id="search-input" placeholder="検索..." />
+            <select id="category-filter">
+                <option value="">カテゴリを選択</option>
+                <option value="モデリング">モデリング</option>
+                <option value="エンジン">エンジン</option>
+                <option value="アニメーション">アニメーション</option>
+                <option value="アルゴリズム">アルゴリズム</option>
+                <option value="比較">比較</option>
+            </select>
+            <select id="tag-filter">
+                <option value="">タグを選択</option>
+                <!-- タグは JavaScript で動的に生成 -->
+            </select>
+            <select id="sort-select">
+                <option value="date-asc">日付 (昇順)</option>
+                <option value="date-desc">日付 (降順)</option>
+                <option value="title-asc">タイトル (A-Z)</option>
+                <option value="title-desc">タイトル (Z-A)</option>
+            </select>
+            <div id="post-list">
+                <!-- ここに投稿リストが表示される -->
+            </div>
+        </div>
+        <div id="profile" class="tab-content">
+            <h2>プロフィール</h2>
+            <p>ユーザーのプロフィール情報が表示されます。</p>
+        </div>
+        <div id="notifications" class="tab-content">
+            <h2>通知</h2>
+            <p>最近の通知を表示します。</p>
+        </div>
+        <div id="settings" class="tab-content">
+            <h2>設定</h2>
+            <p>アカウントの設定を変更できます。</p>
+        </div>
+        <div id="post-detail" class="tab-content">
+            <h2 id="post-title">詳細ページ</h2>
+            <h3 id="post-subtitle"></h3>
+            <p id="post-date"></p>
+            <p id="post-content">ここに投稿の詳細が表示されます。</p>
+            <button id="back-button">戻る</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 3Dゲーム制作サイト</p>
+    </footer>
+    <script src = "./data.js"></script>
+    <script src = "./script.js"></script>
+</body>
+</html>
