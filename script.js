@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     // 投稿データのサンプル (JSON形式)
 
@@ -36,12 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
         postsToRender.forEach(post => {
             const postItem = document.createElement("div");
             postItem.classList.add("post-item");
-            postItem.innerHTML = `
+            postItem.innerHTML = 
                 <h3>${highlightText(post.title)}</h3>
                 <p>${highlightText(post.subtitle)}</p>
                 <p>${post.date}</p>
-                <p>タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}</p>
-            `;
+                <p>タグ: ${post.tags.map(tag => <span class="tag">${tag}</span>).join(', ')}</p>
+            ;
             postItem.addEventListener("click", function () {
                 showPostDetail(post);
             });
@@ -90,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function highlightText(text) {
         const query = searchInput.value.toLowerCase();
         if (!query) return text;
-        const regex = new RegExp(`(${query})`, 'gi');
+        const regex = new RegExp((${query}), 'gi');
         return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
@@ -114,77 +113,11 @@ document.addEventListener("DOMContentLoaded", function () {
     tagFilter.addEventListener("change", filterPosts);
     sortSelect.addEventListener("change", filterPosts);
     backButton.addEventListener("click", handleBackButtonClick);
-//----
+
     populateTagFilter(); // タグフィルタのオプションを生成
     showTabFromHash();
     window.addEventListener('hashchange', showTabFromHash);
 
     // 初期表示
     renderPosts(posts);
-    const profileForm = document.getElementById("profile-form");
-    const saveProfileButton = document.getElementById("save-profile");
-    
-    function saveProfile() {
-        const name = document.getElementById("profile-name").value;
-        const email = document.getElementById("profile-email").value;
-        const bio = document.getElementById("profile-bio").value;
-        
-        localStorage.setItem("profile-name", name);
-        localStorage.setItem("profile-email", email);
-        localStorage.setItem("profile-bio", bio);
-        
-        alert("プロフィールが保存されました。");
-    }
-
-    saveProfileButton.addEventListener("click", saveProfile);
-
-    function loadProfile() {
-        const name = localStorage.getItem("profile-name") || "";
-        const email = localStorage.getItem("profile-email") || "";
-        const bio = localStorage.getItem("profile-bio") || "";
-        
-        document.getElementById("profile-name").value = name;
-        document.getElementById("profile-email").value = email;
-        document.getElementById("profile-bio").value = bio;
-    }
-    
-    loadProfile();
-
-    // 設定保存処理
-    const settingsForm = document.getElementById("settings-form");
-    const saveSettingsButton = document.getElementById("save-settings");
-    
-    function saveSettings() {
-        const theme = document.getElementById("theme-select").value;
-        const notifications = document.getElementById("notifications").checked;
-        
-        localStorage.setItem("theme", theme);
-        localStorage.setItem("notifications", notifications);
-        
-        alert("設定が保存されました。");
-        applySettings();
-    }
-
-    saveSettingsButton.addEventListener("click", saveSettings);
-
-    function loadSettings() {
-        const theme = localStorage.getItem("theme") || "light";
-        const notifications = localStorage.getItem("notifications") === "true";
-        
-        document.getElementById("theme-select").value = theme;
-        document.getElementById("notifications").checked = notifications;
-    }
-
-    function applySettings() {
-        const theme = localStorage.getItem("theme") || "light";
-        if (theme === "dark") {
-            document.body.classList.add("dark-theme");
-        } else {
-            document.body.classList.remove("dark-theme");
-        }
-    }
-
-    loadSettings();
-    applySettings();
-
 });
