@@ -114,11 +114,77 @@ document.addEventListener("DOMContentLoaded", function () {
     tagFilter.addEventListener("change", filterPosts);
     sortSelect.addEventListener("change", filterPosts);
     backButton.addEventListener("click", handleBackButtonClick);
-
+//----
     populateTagFilter(); // タグフィルタのオプションを生成
     showTabFromHash();
     window.addEventListener('hashchange', showTabFromHash);
 
     // 初期表示
     renderPosts(posts);
+    const profileForm = document.getElementById("profile-form");
+    const saveProfileButton = document.getElementById("save-profile");
+    
+    function saveProfile() {
+        const name = document.getElementById("profile-name").value;
+        const email = document.getElementById("profile-email").value;
+        const bio = document.getElementById("profile-bio").value;
+        
+        localStorage.setItem("profile-name", name);
+        localStorage.setItem("profile-email", email);
+        localStorage.setItem("profile-bio", bio);
+        
+        alert("プロフィールが保存されました。");
+    }
+
+    saveProfileButton.addEventListener("click", saveProfile);
+
+    function loadProfile() {
+        const name = localStorage.getItem("profile-name") || "";
+        const email = localStorage.getItem("profile-email") || "";
+        const bio = localStorage.getItem("profile-bio") || "";
+        
+        document.getElementById("profile-name").value = name;
+        document.getElementById("profile-email").value = email;
+        document.getElementById("profile-bio").value = bio;
+    }
+    
+    loadProfile();
+
+    // 設定保存処理
+    const settingsForm = document.getElementById("settings-form");
+    const saveSettingsButton = document.getElementById("save-settings");
+    
+    function saveSettings() {
+        const theme = document.getElementById("theme-select").value;
+        const notifications = document.getElementById("notifications").checked;
+        
+        localStorage.setItem("theme", theme);
+        localStorage.setItem("notifications", notifications);
+        
+        alert("設定が保存されました。");
+        applySettings();
+    }
+
+    saveSettingsButton.addEventListener("click", saveSettings);
+
+    function loadSettings() {
+        const theme = localStorage.getItem("theme") || "light";
+        const notifications = localStorage.getItem("notifications") === "true";
+        
+        document.getElementById("theme-select").value = theme;
+        document.getElementById("notifications").checked = notifications;
+    }
+
+    function applySettings() {
+        const theme = localStorage.getItem("theme") || "light";
+        if (theme === "dark") {
+            document.body.classList.add("dark-theme");
+        } else {
+            document.body.classList.remove("dark-theme");
+        }
+    }
+
+    loadSettings();
+    applySettings();
+
 });
