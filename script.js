@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     // 投稿データのサンプル (JSON形式)
 
@@ -35,12 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
         postsToRender.forEach(post => {
             const postItem = document.createElement("div");
             postItem.classList.add("post-item");
-            postItem.innerHTML = 
+            postItem.innerHTML = `
                 <h3>${highlightText(post.title)}</h3>
                 <p>${highlightText(post.subtitle)}</p>
                 <p>${post.date}</p>
-                <p>タグ: ${post.tags.map(tag => <span class="tag">${tag}</span>).join(', ')}</p>
-            ;
+                <p>タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}</p>
+            `;
             postItem.addEventListener("click", function () {
                 showPostDetail(post);
             });
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function highlightText(text) {
         const query = searchInput.value.toLowerCase();
         if (!query) return text;
-        const regex = new RegExp((${query}), 'gi');
+        const regex = new RegExp(`(${query})`, 'gi');
         return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
