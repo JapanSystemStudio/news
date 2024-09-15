@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // DOMのロードが完了した後に実行されるコード
+
     const postList = document.getElementById("post-list");
     const searchInput = document.getElementById("search-input");
     const categoryFilter = document.getElementById("category-filter");
@@ -6,113 +8,60 @@ document.addEventListener("DOMContentLoaded", function () {
     const sortSelect = document.getElementById("sort-select");
     const backButton = document.getElementById("back-button");
 
-    if (!postList || !searchInput || !categoryFilter || !tagFilter || !sortSelect || !backButton) {
-        console.error("必要な要素がHTMLに存在しません。");
-        return;
+    // 検索、カテゴリ、タグ、ソートで投稿をフィルタリングする関数
+    function filterPosts() {
+        const searchText = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        const selectedTag = tagFilter.value;
+        const selectedSort = sortSelect.value;
+
+        let filteredPosts = posts;
+
+        // 検索フィルタリング
+        if (searchText) {
+            filteredPosts = filteredPosts.filter(post =>
+                post.title.toLowerCase().includes(searchText) ||
+                post.subtitle.toLowerCase().includes(searchText)
+            );
+        }
+
+        // カテゴリフィルタリング
+        if (selectedCategory) {
+            filteredPosts = filteredPosts.filter(post => post.category === selectedCategory);
+        }
+
+        // タグフィルタリング
+        if (selectedTag) {
+            filteredPosts = filteredPosts.filter(post => post.tags.includes(selectedTag));
+        }
+
+        // 並び替え
+        if (selectedSort === 'date-asc') {
+            filteredPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
+        } else if (selectedSort === 'date-desc') {
+            filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
+        renderPosts(filteredPosts);
     }
 
     function renderPosts(postsToRender) {
         postList.innerHTML = '';
-        if (postsToRender.length === 0) {
-            const noPosts = document.createElement("p");
-            noPosts.textContent = "投稿が見つかりませんでした。";
-            postList.appendChild(noPosts);
-            return;
-        }
         postsToRender.forEach(post => {
             const postItem = document.createElement("div");
             postItem.classList.add("post-item");
             postItem.innerHTML = `
-                <h3>${highlightText(post.title)}</h3>
-                <p>${highlightText(post.subtitle)}</p>
+                <h3>${post.title}</h3>
+                <p>${post.subtitle}</p>
                 <p>${post.date}</p>
-                <p>タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}</p>
+                <p>タグ: ${post.tags.join(", ")}</p>
             `;
-            postItem.addEventListener("click", function () {
-                window.location.hash = `#post-${post.id}`; // クリック時にアンカーを設定
-            });
             postList.appendChild(postItem);
         });
-    }
-
-    function showPostDetail(post) {
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        document.getElementById("post-title").textContent = post.title;
-        document.getElementById("post-subtitle").textContent = post.subtitle;
-        document.getElementById("post-date").textContent = post.date;
-        document.getElementById("post-content").textContent = post.content;
-        document.getElementById("post-tags").innerHTML = `タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}`;
-        document.getElementById("post-detail").classList.add('active');
-    }
-    function filterPosts() {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedCategory = categoryFilter.value;
-    const selectedTag = tagFilter.value;
-    const selectedSort = sortSelect.value;
-
-    let filteredPosts = posts;
-
-    // 検索文字列でフィルタリング
-    if (searchText) {
-        filteredPosts = filteredPosts.filter(post => 
-            post.title.toLowerCase().includes(searchText) ||
-            post.subtitle.toLowerCase().includes(searchText)
-        );
-    }
-
-    // カテゴリでフィルタリング
-    if (selectedCategory && selectedCategory !== 'all') {
-        filteredPosts = filteredPosts.filter(post => post.category === selectedCategory);
-    }
-
-    // タグでフィルタリング
-    if (selectedTag && selectedTag !== 'all') {
-        filteredPosts = filteredPosts.filter(post => post.tags.includes(selectedTag));
-    }
-
-    // 並び替え
-    if (selectedSort === 'date-asc') {
-        filteredPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
-    } else if (selectedSort === 'date-desc') {
-        filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-
-    // フィルタリング結果をレンダリング
-    renderPosts(filteredPosts);
-}
-
-
-    function showTabFromHash() {
-        const hash = window.location.hash;
-        if (hash.startsWith("#post-")) {
-            const postId = parseInt(hash.replace("#post-", ""), 10);
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                showPostDetail(post);
-                return;
-            }
-        } else {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            const activeTab = document.querySelector(hash);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-        }
-    }
-
-    function handleBackButtonClick() {
-        window.history.back(); // ブラウザの「戻る」ボタンの動作を模倣
     }
 
     searchInput.addEventListener("input", filterPosts);
     categoryFilter.addEventListener("change", filterPosts);
     tagFilter.addEventListener("change", filterPosts);
     sortSelect.addEventListener("change", filterPosts);
-    backButton.addEventListener("click", handleBackButtonClick);
-
-    window.addEventListener('hashchange', showTabFromHash); // ハッシュ変更時に投稿を表示
-
-    // 初回ページ読み込み時にもハッシュを確認
-    showTabFromHash();
-    renderPosts(posts);
 });
