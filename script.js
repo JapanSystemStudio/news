@@ -1,8 +1,4 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-    // 投稿データのサンプル (JSON形式)
-
-
     const postList = document.getElementById("post-list");
     const searchInput = document.getElementById("search-input");
     const categoryFilter = document.getElementById("category-filter");
@@ -33,6 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderPosts(postsToRender) {
         postList.innerHTML = '';
+        if (postsToRender.length === 0) {
+            const noPosts = document.createElement("p");
+            noPosts.textContent = "投稿が見つかりませんでした。";
+            postList.appendChild(noPosts);
+            return;
+        }
         postsToRender.forEach(post => {
             const postItem = document.createElement("div");
             postItem.classList.add("post-item");
@@ -43,7 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p>タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}</p>
             `;
             postItem.addEventListener("click", function () {
-                showPostDetail(post);
+                // ハッシュを #post-<id> に設定
+                window.location.hash = `#post-${post.id}`;
             });
             postList.appendChild(postItem);
         });
@@ -55,8 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("post-subtitle").textContent = post.subtitle;
         document.getElementById("post-date").textContent = post.date;
         document.getElementById("post-content").textContent = post.content;
-        document.getElementById("post-detail").classList.add('active');
-        window.location.hash = '#post-detail';
+        // タグ表示を更新
+        const postDetail = document.getElementById("post-detail");
+        const tagsContainer = postDetail.querySelector("#post-detail p:nth-of-type(2)");
+        tagsContainer.innerHTML = `タグ: ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ')}`;
+        postDetail.classList.add('active');
     }
 
     function filterPosts() {
@@ -96,6 +102,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showTabFromHash() {
         const hash = window.location.hash || '#home';
+        // チャット内のハッシュに対応
+        if (hash.startsWith("#post-")) {
+            const postId = parseInt(hash.replace("#post-", ""), 10);
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                showPostDetail(post);
+                return;
+            }
+        }
+        // 既存のタブ処理
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         const activeTab = document.querySelector(hash);
         if (activeTab) {
@@ -104,9 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handleBackButtonClick() {
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        document.getElementById("home").classList.add('active');
-        window.location.hash = '#home';
+        // 前の状態に戻すには履歴を使用
+        window.history.back();
     }
 
     searchInput.addEventListener("input", filterPosts);
